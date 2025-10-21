@@ -1,9 +1,8 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Code2, Database, Palette, Cpu, Rocket, 
   Github, Linkedin, Youtube, Mail, ChevronDown,
-  FileCode, Layers, Terminal, Sparkles, Upload, X
+  FileCode, Layers, Terminal, Sparkles
 } from 'lucide-react';
 import Background3D from '@/components/Background3D';
 import SkillCard from '@/components/SkillCard';
@@ -11,20 +10,9 @@ import ProjectCard from '@/components/ProjectCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import profileImage from '@/assets/jaya-haris-portrait.jpg';
 
 const Index = () => {
-  const [sketchImage, setSketchImage] = useState<string | null>(null);
-
-  const handleSketchUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSketchImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const skills = [
     { name: 'React.js', icon: Code2 },
@@ -66,7 +54,7 @@ const Index = () => {
         className="fixed top-6 left-1/2 -translate-x-1/2 z-50 glass-card px-6 py-3 rounded-full"
       >
         <div className="flex gap-6">
-          {['About', 'Skills', 'Projects', 'Sketches', 'Contact'].map((item) => (
+          {['About', 'Skills', 'Projects', 'Contact'].map((item) => (
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
@@ -161,14 +149,40 @@ const Index = () => {
             viewport={{ once: true }}
             className="glass-card p-12 rounded-3xl"
           >
-            <h2 className="text-5xl font-bold text-gradient mb-8">About Me</h2>
-            <p className="text-xl text-muted-foreground leading-relaxed">
-              I'm a Computer Science Engineering student at <span className="text-primary font-semibold">Sankara Polytechnic College</span>, 
-              passionate about crafting digital experiences that merge creativity with technology. 
-              From full-stack web development to exploring the frontiers of AI, I love building intelligent 
-              applications that solve real-world problems. When I'm not coding, you'll find me sketching 
-              new ideas or learning about the latest tech innovations.
-            </p>
+            <h2 className="text-5xl font-bold text-gradient mb-12">About Me</h2>
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                <p className="text-xl text-muted-foreground leading-relaxed mb-6">
+                  I'm a Computer Science Engineering student at <span className="text-primary font-semibold">Sankara Polytechnic College</span>, 
+                  passionate about crafting digital experiences that merge creativity with technology.
+                </p>
+                <p className="text-xl text-muted-foreground leading-relaxed">
+                  From full-stack web development to exploring the frontiers of AI, I love building intelligent 
+                  applications that solve real-world problems. When I'm not coding, you'll find me sketching 
+                  new ideas or learning about the latest tech innovations.
+                </p>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                viewport={{ once: true }}
+                className="relative group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-accent rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                <img
+                  src={profileImage}
+                  alt="Jaya Haris - Full-Stack Developer"
+                  className="relative rounded-2xl w-full h-auto object-cover shadow-2xl hover:scale-105 transition-transform duration-500"
+                />
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -221,64 +235,6 @@ const Index = () => {
               />
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Sketch Upload Section */}
-      <section id="sketches" className="py-32 px-4">
-        <div className="max-w-4xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-5xl font-bold text-gradient text-center mb-16"
-          >
-            My Sketches 🎨
-          </motion.h2>
-          
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="glass-card p-12 rounded-3xl"
-          >
-            {!sketchImage ? (
-              <label className="flex flex-col items-center justify-center min-h-[400px] cursor-pointer hover:scale-105 transition-transform">
-                <Upload className="w-16 h-16 text-primary mb-4" />
-                <p className="text-xl text-muted-foreground mb-2">Upload Your Sketch</p>
-                <p className="text-sm text-muted-foreground">PNG, JPG up to 10MB</p>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleSketchUpload}
-                  className="hidden"
-                />
-              </label>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="relative"
-              >
-                <button
-                  onClick={() => setSketchImage(null)}
-                  className="absolute top-4 right-4 p-2 rounded-full bg-destructive/90 hover:bg-destructive transition-colors"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-                <img
-                  src={sketchImage}
-                  alt="Uploaded sketch"
-                  className="w-full rounded-2xl"
-                  style={{
-                    filter: 'drop-shadow(0 0 20px hsl(263 70% 50.4% / 0.3))',
-                  }}
-                />
-              </motion.div>
-            )}
-          </motion.div>
         </div>
       </section>
 
