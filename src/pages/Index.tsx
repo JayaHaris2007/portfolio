@@ -7,6 +7,7 @@ import {
 import Background3D from '@/components/Background3D';
 import SkillCard from '@/components/SkillCard';
 import ProjectCard from '@/components/ProjectCard';
+import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -46,25 +47,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Background3D />
-      
-      {/* Floating Navigation */}
-      <motion.nav 
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className="fixed top-6 left-1/2 -translate-x-1/2 z-50 glass-card px-6 py-3 rounded-full"
-      >
-        <div className="flex gap-6">
-          {['About', 'Skills', 'Projects', 'Contact'].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="text-foreground hover:text-primary transition-colors font-medium"
-            >
-              {item}
-            </a>
-          ))}
-        </div>
-      </motion.nav>
+      <Navbar />
 
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center relative px-4">
