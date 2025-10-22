@@ -1,19 +1,44 @@
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { 
   Code2, Database, Palette, Cpu, Rocket, 
   Github, Linkedin, Youtube, Mail, ChevronDown,
-  FileCode, Layers, Terminal, Sparkles
+  FileCode, Layers, Terminal, Sparkles, CheckCircle, AlertCircle
 } from 'lucide-react';
-import Background3D from '@/components/Background3D';
+// Background3D removed per user request
 import SkillCard from '@/components/SkillCard';
 import ProjectCard from '@/components/ProjectCard';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import profileImage from '@/assets/jaya-haris-portrait.jpg';
+import { useToast } from '@/hooks/use-toast';
+import profileImage from '@/assets/jaya-haris-portrait.png';
+import { useForm, ValidationError } from '@formspree/react';
 
 const Index = () => {
+  const { toast } = useToast();
+  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [state, handleSubmit] = useForm("xeorbgvy");
+  
+  // Use useEffect to handle form submission success
+  useEffect(() => {
+    if (state.succeeded && formStatus !== 'success') {
+      setFormStatus('success');
+      toast({
+        title: "Message sent!",
+        description: "Thanks for reaching out. I'll get back to you soon.",
+      });
+      
+      // Reset form status after 3 seconds
+      const timer = setTimeout(() => {
+        setFormStatus('idle');
+      }, 3000);
+      
+      // Clean up timer
+      return () => clearTimeout(timer);
+    }
+  }, [state.succeeded, formStatus, toast]);
 
   const skills = [
     { name: 'React.js', icon: Code2 },
@@ -21,9 +46,9 @@ const Index = () => {
     { name: 'Firebase', icon: Database },
     { name: 'Tailwind CSS', icon: Palette },
     { name: 'Python', icon: FileCode },
-    { name: 'Flutter', icon: Layers },
-    { name: 'AI Tools', icon: Cpu },
-    { name: 'Three.js', icon: Sparkles },
+  { name: 'AI Tools', icon: Cpu },
+  { name: 'PHP', icon: FileCode },
+  { name: 'API Integration', icon: Database },
   ];
 
   const projects = [
@@ -45,12 +70,12 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <Background3D />
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden relative">
+      {/* Background graphics removed per user request */}
       <Navbar />
 
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center relative px-4">
+      <section className="min-h-screen flex items-center justify-center relative px-4 z-10 hero-section">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -123,47 +148,52 @@ const Index = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-32 px-4">
-        <div className="max-w-6xl mx-auto">
+      <section id="about" className="py-20 px-4 relative z-10 about-section">
+        <div className="max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="glass-card p-12 rounded-3xl"
+            className="glass-card p-8 rounded-3xl"
           >
-            <h2 className="text-5xl font-bold text-gradient mb-12">About Me</h2>
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-gradient mb-8">About Me</h2>
+            <div className="grid md:grid-cols-[1fr,320px] gap-8 md:gap-12 items-center">
               <motion.div
-                initial={{ opacity: 0, x: -30 }}
+                initial={{ opacity: 0, x: -24 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                transition={{ duration: 0.5, delay: 0.15 }}
                 viewport={{ once: true }}
               >
-                <p className="text-xl text-muted-foreground leading-relaxed mb-6">
-                  I'm a Computer Science Engineering student at <span className="text-primary font-semibold">Sankara Polytechnic College</span>, 
-                  passionate about crafting digital experiences that merge creativity with technology.
+                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-4">
+                  I'm a Computer Science Engineering student at <span className="text-primary font-semibold">Sankara Polytechnic College</span>, passionate about crafting digital experiences that merge creativity with technology.
                 </p>
-                <p className="text-xl text-muted-foreground leading-relaxed">
-                  From full-stack web development to exploring the frontiers of AI, I love building intelligent 
-                  applications that solve real-world problems. When I'm not coding, you'll find me sketching 
-                  new ideas or learning about the latest tech innovations.
+                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                  From full‑stack web development to exploring the frontiers of AI, I love building intelligent applications that solve real‑world problems. When I'm not coding, you'll find me sketching new ideas or learning about the latest tech innovations.
                 </p>
               </motion.div>
-              
+
               <motion.div
-                initial={{ opacity: 0, x: 30 }}
+                initial={{ opacity: 0, x: 24 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
+                transition={{ duration: 0.5, delay: 0.25 }}
                 viewport={{ once: true }}
-                className="relative group"
+                className="relative flex justify-center"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-accent rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
-                <img
-                  src={profileImage}
-                  alt="Jaya Haris - Full-Stack Developer"
-                  className="relative rounded-2xl w-full h-auto object-cover shadow-2xl hover:scale-105 transition-transform duration-500"
-                />
+                <motion.div
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                  className="relative group w-56 h-56 md:w-72 md:h-72"
+                >
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary via-secondary to-accent blur-2xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                  <div className="relative rounded-full p-[6px] bg-background/60 backdrop-blur-xl shadow-2xl overflow-hidden aspect-square">
+                    <img
+                      src={profileImage}
+                      alt="Jaya Haris - Full-Stack Developer"
+                      className="w-full h-full rounded-full object-cover"
+                    />
+                  </div>
+                </motion.div>
               </motion.div>
             </div>
           </motion.div>
@@ -171,7 +201,7 @@ const Index = () => {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-32 px-4">
+      <section id="skills" className="py-32 px-4 relative z-10 skills-section">
         <div className="max-w-6xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
@@ -197,7 +227,7 @@ const Index = () => {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-32 px-4">
+      <section id="projects" className="py-32 px-4 relative z-10 projects-section">
         <div className="max-w-6xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
@@ -222,7 +252,7 @@ const Index = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-32 px-4">
+      <section id="contact" className="py-32 px-4 relative z-10 contact-section">
         <div className="max-w-4xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
@@ -241,26 +271,74 @@ const Index = () => {
             viewport={{ once: true }}
             className="glass-card p-12 rounded-3xl"
           >
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-2">
                 <label className="text-sm font-medium">Name</label>
-                <Input placeholder="Your name" className="bg-background/50" />
+                <Input 
+                  id="name"
+                  name="name"
+                  placeholder="Your name" 
+                  className="bg-background/50" 
+                />
+                <ValidationError prefix="Name" field="name" errors={state.errors} />
               </div>
               
               <div className="space-y-2">
                 <label className="text-sm font-medium">Email</label>
-                <Input type="email" placeholder="your.email@example.com" className="bg-background/50" />
+                <Input 
+                  id="email"
+                  name="email"
+                  type="email" 
+                  placeholder="your.email@example.com" 
+                  className="bg-background/50" 
+                />
+                <ValidationError prefix="Email" field="email" errors={state.errors} />
               </div>
               
               <div className="space-y-2">
                 <label className="text-sm font-medium">Message</label>
-                <Textarea placeholder="Your message..." rows={6} className="bg-background/50" />
+                <Textarea 
+                  id="message"
+                  name="message"
+                  placeholder="Your message..." 
+                  rows={6} 
+                  className="bg-background/50" 
+                />
+                <ValidationError prefix="Message" field="message" errors={state.errors} />
               </div>
               
-              <Button size="lg" className="w-full gap-2 hover:scale-105 transition-transform">
-                <Mail className="w-5 h-5" />
-                Send Message
+              <Button 
+                type="submit" 
+                size="lg" 
+                className="w-full gap-2 hover:scale-105 transition-transform"
+                disabled={state.submitting}
+              >
+                {state.submitting ? (
+                  <>
+                    <span className="animate-spin mr-2">⏳</span>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Mail className="w-5 h-5" />
+                    Send Message
+                  </>
+                )}
               </Button>
+              
+              {formStatus === 'success' && (
+                <div className="mt-4 p-3 bg-green-500/20 border border-green-500/50 rounded-md flex items-center gap-2 text-green-500">
+                  <CheckCircle className="w-5 h-5" />
+                  <span>Message sent successfully!</span>
+                </div>
+              )}
+              
+              {state.errors && (
+                <div className="mt-4 p-3 bg-red-500/20 border border-red-500/50 rounded-md flex items-center gap-2 text-red-500">
+                  <AlertCircle className="w-5 h-5" />
+                  <span>Failed to send message. Please try again.</span>
+                </div>
+              )}
             </form>
 
             <div className="flex justify-center gap-6 mt-12">
@@ -279,9 +357,9 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 text-center border-t border-border/50">
+      <footer className="py-12 text-center border-t border-border/50 relative z-10">
         <p className="text-muted-foreground">
-          © 2025 Jaya Haris • Built with React, Framer Motion & Three.js
+          © 2025 Jaya Haris • Built with React & Framer Motion
         </p>
       </footer>
     </div>
