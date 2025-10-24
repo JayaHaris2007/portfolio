@@ -156,7 +156,7 @@ const Index = () => {
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="glass-card p-16 rounded-3xl"
+            className="glass-card p-10 rounded-3xl"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-gradient mb-8">About Me</h2>
             <div className="grid md:grid-cols-[1fr,320px] gap-8 md:gap-12 items-center">
