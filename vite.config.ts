@@ -13,5 +13,6 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  base: "/portfolio/",
     // base: "/portfolio", // Removed base config for GitHub Pages
 }));
