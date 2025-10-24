@@ -9,6 +9,7 @@ import {
 import SkillCard from '../components/SkillCard';
 import ProjectCard from '../components/ProjectCard';
 import Navbar from '../components/Navbar';
+import ProfileCard from '../components/ProfileCard';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
@@ -155,7 +156,7 @@ const Index = () => {
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="glass-card p-8 rounded-3xl"
+            className="glass-card p-16 rounded-3xl"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-gradient mb-8">About Me</h2>
             <div className="grid md:grid-cols-[1fr,320px] gap-8 md:gap-12 items-center">
@@ -180,20 +181,17 @@ const Index = () => {
                 viewport={{ once: true }}
                 className="relative flex justify-center"
               >
-                <motion.div
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="relative group w-56 h-56 md:w-72 md:h-72"
-                >
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary via-secondary to-accent blur-2xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
-                  <div className="relative rounded-full p-[6px] bg-background/60 backdrop-blur-xl shadow-2xl overflow-hidden aspect-square">
-                    <img
-                      src={profileImage}
-                      alt="Jaya Haris - Full-Stack Developer"
-                      className="w-full h-full rounded-full object-cover"
-                    />
-                  </div>
-                </motion.div>
+                
+                <ProfileCard
+                  name="Jaya Haris"
+                  title="Full-Stack Developer"
+                  handle="jayaharis"
+                  status="Coding..."
+                  contactText="Contact Me"
+                  avatarUrl={profileImage}
+                  showUserInfo={false}
+                  className=""
+                />
               </motion.div>
             </div>
           </motion.div>
